@@ -1,6 +1,7 @@
 # input-tables
 
-A collection of remote java client input table examples for table creation and data entry.
+input-tables is a repository for Deephaven input table examples. It was created as the source code for the blog post
+["Deephaven data your way"](https://deephaven.io/blog/#todo).
 
 ## Build
 
@@ -10,14 +11,19 @@ The following examples can be built via
 ./gradlew installDist
 ```
 
-This will package and create the startup scripts under the `app/build/install/app` directory.
+This will create and package the runnable applications under the `app/build/install/app` directory.
 
 ## Running
 
+These examples assume an already running Deephaven server.
+See [deephaven-core#run-deephaven](https://github.com/deephaven/deephaven-core#run-deephaven) for more information.
+
 By default, the applications will connect to the Deephaven target `dh+plain://localhost:10000`, but that can be changed
-by setting the environment variable `DEEPHAVEN_TARGET`.
+by setting the environment variable `DEEPHAVEN_TARGET` as appropriate.
 
 ### audit-log
+
+The audit log is an example input table with a timestamp `Timestamp`, string `Type`, and string `Log` schema.
 
 * [AuditLogCreate.java](app/src/main/java/io/deephaven/examples/audit_log/AuditLogCreate.java)
 * [AuditLogAdd.java](app/src/main/java/io/deephaven/examples/audit_log/AuditLogAdd.java)
@@ -29,6 +35,8 @@ by setting the environment variable `DEEPHAVEN_TARGET`.
 
 ### city-weather
 
+The city weather is an example input table with a string `City`, timestamp `Timestamp`, and double `Degrees` schema.
+
 * [CityWeatherCreate.java](app/src/main/java/io/deephaven/examples/city_weather/CityWeatherCreate.java)
 * [CityWeatherAdd.java](app/src/main/java/io/deephaven/examples/city_weather/CityWeatherAdd.java)
 
@@ -38,6 +46,8 @@ by setting the environment variable `DEEPHAVEN_TARGET`.
 ```
 
 ### random-numbers-generator
+
+The random numbers generator is an example input table with an int `Index`, timestamp `Timestamp`, int `Iteration`, int `Int`, long `Long`, and double `Double` schema.
 
 * [RandomNumbersCreate.java](app/src/main/java/io/deephaven/examples/random_numbers/RandomNumbersCreate.java)
 * [RandomNumbersGenerator.java](app/src/main/java/io/deephaven/examples/random_numbers/RandomNumbersGenerator.java)
