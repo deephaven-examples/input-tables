@@ -19,8 +19,8 @@ by setting the environment variable `DEEPHAVEN_TARGET`.
 
 ### audit-log
 
-[AuditLogCreate.java](app/src/main/java/io/deephaven/examples/audit_log/AuditLogCreate.java)
-[AuditLogAdd.java](app/src/main/java/io/deephaven/examples/audit_log/AuditLogAdd.java)
+* [AuditLogCreate.java](app/src/main/java/io/deephaven/examples/audit_log/AuditLogCreate.java)
+* [AuditLogAdd.java](app/src/main/java/io/deephaven/examples/audit_log/AuditLogAdd.java)
 
 ```shell
 ./app/build/install/app/bin/audit-log-create
@@ -29,8 +29,8 @@ by setting the environment variable `DEEPHAVEN_TARGET`.
 
 ### city-weather
 
-[CityWeatherCreate.java](app/src/main/java/io/deephaven/examples/city_weather/CityWeatherCreate.java)
-[CityWeatherAdd.java](app/src/main/java/io/deephaven/examples/city_weather/CityWeatherAdd.java)
+* [CityWeatherCreate.java](app/src/main/java/io/deephaven/examples/city_weather/CityWeatherCreate.java)
+* [CityWeatherAdd.java](app/src/main/java/io/deephaven/examples/city_weather/CityWeatherAdd.java)
 
 ```shell
 ./app/build/install/app/bin/city-weather-create
@@ -39,8 +39,8 @@ by setting the environment variable `DEEPHAVEN_TARGET`.
 
 ### random-numbers-generator
 
-[RandomNumbersCreate.java](app/src/main/java/io/deephaven/examples/random_numbers/RandomNumbersCreate.java)
-[RandomNumbersGenerator.java](app/src/main/java/io/deephaven/examples/random_numbers/RandomNumbersGenerator.java)
+* [RandomNumbersCreate.java](app/src/main/java/io/deephaven/examples/random_numbers/RandomNumbersCreate.java)
+* [RandomNumbersGenerator.java](app/src/main/java/io/deephaven/examples/random_numbers/RandomNumbersGenerator.java)
 
 ```shell
 ./app/build/install/app/bin/random-numbers-create
