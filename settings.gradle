@@ -1,0 +1,2 @@
+rootProject.name = 'input-tables'
+include('app')

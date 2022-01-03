@@ -1,0 +1,41 @@
+plugins {
+    id 'application'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'io.deephaven:deephaven-java-client-flight-dagger:0.8.0'
+    runtimeOnly 'ch.qos.logback:logback-classic:1.3.0-alpha12'
+}
+
+startScripts.enabled = false
+
+def createApplication = { String name, String mainClass ->
+    project.tasks.register("create-${name}", CreateStartScripts) {script ->
+        script.mainClass.set mainClass
+        script.applicationName = name
+        script.outputDir = project.layout.buildDirectory.dir(name).get().asFile
+        script.classpath = startScripts.classpath
+    }
+}
+
+applicationDistribution.into('bin') {
+    from(createApplication('audit-log-create', 'io.deephaven.examples.audit_log.AuditLogCreate'))
+    from(createApplication('audit-log-add', 'io.deephaven.examples.audit_log.AuditLogAdd'))
+    from(createApplication('city-weather-create', 'io.deephaven.examples.city_weather.CityWeatherCreate'))
+    from(createApplication('city-weather-add', 'io.deephaven.examples.city_weather.CityWeatherAdd'))
+    from(createApplication('random-numbers-create', 'io.deephaven.examples.random_numbers.RandomNumbersCreate'))
+    from(createApplication('random-numbers-generator', 'io.deephaven.examples.random_numbers.RandomNumbersGenerator'))
+    fileMode = 0755
+}
+
+if (JavaVersion.current() > JavaVersion.VERSION_1_8) {
+    // Suppress the Apache Arrow memory util warnings
+    tasks.withType(CreateStartScripts).configureEach {
+        defaultJvmOpts += ['--add-opens', 'java.base/java.nio=ALL-UNNAMED']
+    }
+}
+
