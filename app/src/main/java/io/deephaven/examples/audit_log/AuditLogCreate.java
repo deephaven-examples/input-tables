@@ -46,7 +46,7 @@ public class AuditLogCreate extends SessionHelper {
         try (TableHandle handle = session.execute(InMemoryAppendOnlyInputTable.of(TableHeader.of(TIMESTAMP, TYPE, LOG)))) {
             log.info("Publishing the table with the scope name '{}'...", AUDIT_LOG_NAME);
             // Publish the table so that it can be accessed in the query scope by other sessions
-            session.publish(AUDIT_LOG_NAME, handle);
+            session.publish(AUDIT_LOG_NAME, handle).get();
             log.info("Success!");
         }
     }

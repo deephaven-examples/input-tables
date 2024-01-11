@@ -2,8 +2,8 @@ package io.deephaven.examples;
 
 import io.deephaven.client.DaggerDeephavenSessionRoot;
 import io.deephaven.client.impl.ChannelHelper;
+import io.deephaven.client.impl.ClientConfig;
 import io.deephaven.client.impl.Session;
-import io.deephaven.uri.DeephavenTarget;
 import io.grpc.ManagedChannel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,23 +20,25 @@ public abstract class SessionHelper {
 
     public void run() throws Exception {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
-        DeephavenTarget target = TargetHelper.target();
-        ManagedChannel channel = ChannelHelper.channel(target);
+        final ClientConfig config = ClientConfig.builder()
+                .target(TargetHelper.target())
+                .build();
+        ManagedChannel channel = ChannelHelper.channel(config);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> onShutdown(scheduler, channel)));
-        run(scheduler, channel, target);
+        run(scheduler, channel, config);
         scheduler.shutdownNow();
         channel.shutdownNow();
     }
 
-    public void run(ScheduledExecutorService scheduler, ManagedChannel channel, DeephavenTarget target) throws Exception {
-        log.info("Connecting to Deephaven @ '{}'...", target);
+    public void run(ScheduledExecutorService scheduler, ManagedChannel channel, ClientConfig config) throws Exception {
+        log.info("Connecting to Deephaven @ '{}'...", config.target());
         try (Session session = DaggerDeephavenSessionRoot.create()
                 .factoryBuilder()
                 .scheduler(scheduler)
                 .managedChannel(channel)
                 .build()
                 .newSession()) {
-            log.info("Connected to Deephaven @ '{}'", target);
+            log.info("Connected to Deephaven @ '{}'", config.target());
             execute(session);
         }
     }

@@ -1,9 +1,9 @@
 package io.deephaven.examples;
 
 import io.deephaven.client.impl.ChannelHelper;
+import io.deephaven.client.impl.ClientConfig;
 import io.deephaven.client.impl.DaggerDeephavenFlightRoot;
 import io.deephaven.client.impl.FlightSession;
-import io.deephaven.uri.DeephavenTarget;
 import io.grpc.ManagedChannel;
 import org.apache.arrow.memory.BufferAllocator;
 import org.apache.arrow.memory.RootAllocator;
@@ -22,16 +22,18 @@ public abstract class FlightSessionHelper {
 
     public void run() throws Exception {
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
-        DeephavenTarget target = TargetHelper.target();
-        ManagedChannel channel = ChannelHelper.channel(target);
+        final ClientConfig config = ClientConfig.builder()
+                .target(TargetHelper.target())
+                .build();
+        ManagedChannel channel = ChannelHelper.channel(config);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> onShutdown(scheduler, channel)));
-        run(scheduler, channel, target);
+        run(scheduler, channel, config);
         scheduler.shutdownNow();
         channel.shutdownNow();
     }
 
-    public void run(ScheduledExecutorService scheduler, ManagedChannel channel, DeephavenTarget target) throws Exception {
-        log.info("Connecting to Deephaven @ '{}'...", target);
+    public void run(ScheduledExecutorService scheduler, ManagedChannel channel, ClientConfig clientConfig) throws Exception {
+        log.info("Connecting to Deephaven @ '{}'...", clientConfig.target());
         BufferAllocator allocator = new RootAllocator();
         FlightSession flightSession = DaggerDeephavenFlightRoot.create()
                 .factoryBuilder()
@@ -40,7 +42,7 @@ public abstract class FlightSessionHelper {
                 .allocator(allocator)
                 .build()
                 .newFlightSession();
-        log.info("Connected to Deephaven @ '{}'", target);
+        log.info("Connected to Deephaven @ '{}'", clientConfig.target());
         try {
             try {
                 execute(allocator, flightSession);

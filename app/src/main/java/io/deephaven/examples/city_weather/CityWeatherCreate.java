@@ -50,7 +50,7 @@ public class CityWeatherCreate extends SessionHelper {
         try (final TableHandle handle = session.execute(InMemoryKeyBackedInputTable.of(header, key))) {
             log.info("Publishing the table with the scope name '{}'...", CITY_WEATHER_NAME);
             // Publish the table so that it can be accessed in the query scope by other sessions
-            session.publish(CITY_WEATHER_NAME, handle);
+            session.publish(CITY_WEATHER_NAME, handle).get();
         }
         log.info("Success!");
     }

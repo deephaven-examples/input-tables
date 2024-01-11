@@ -64,7 +64,7 @@ public class RandomNumbersCreate extends SessionHelper {
                 INDEX.name(), TIMESTAMP.name(), ITERATION.name(), INT.name(), LONG.name(), DOUBLE.name());
         try (final TableHandle handle = session.execute(InMemoryKeyBackedInputTable.of(header, key))) {
             log.info("Publishing the table with the scope name '{}'...", RANDOM_NUMBERS_NAME);
-            session.publish(RANDOM_NUMBERS_NAME, handle);
+            session.publish(RANDOM_NUMBERS_NAME, handle).get();
             log.info("Success!");
         }
     }
